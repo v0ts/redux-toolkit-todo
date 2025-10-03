@@ -1,0 +1,44 @@
+.input {
+	margin: 0;
+	padding: 0;
+	border-radius: 20px;
+	border: 1px solid grey;
+	width: 200px;
+	height: 30px;
+	outline: none;
+	padding-left: 10px;
+
+	transition: all 250ms;
+}
+
+.input:hover,
+.input:focus,
+.input:active {
+	border: 1px solid lightblue;
+}
+
+.button {
+	padding: 0;
+	margin: 0;
+	padding: 10px 20px;
+	border-radius: 15px;
+	outline: none;
+	border: 1px solid transparent;
+	background-color: wheat;
+	color: black;
+	margin-left: 10px;
+
+	transition: all 250ms;
+}
+
+.button:hover,
+.button:focus {
+	transform: scale(1.1);
+	border: 1px solid lightblue;
+	color: white;
+	background-color: lightblue;
+}
+
+.wrong { 
+	border: 1px solid red;
+}

@@ -1,0 +1,67 @@
+.list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.item {
+	display: flex;
+	width: 400px;
+	justify-content: space-between;
+	align-items: center;
+	background-color: wheat;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+.close {
+	background-color: white;
+	border-radius: 20px;
+	padding: 0;
+	margin: 0;
+	width: 40px;
+	height: 30px;
+	border: 1px solid transparent;
+	transition: all 250ms;
+}
+
+.close:hover,
+.close:focus {
+	transform: scale(1.1);
+}
+
+.checkbox {
+	cursor: pointer;
+}
+
+.buttonList {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+.text {
+	margin: 0;
+	padding: 5px;
+	background-color: wheat;
+	border: 1px solid transparent;
+	border-radius: 20px;
+	outline: none;
+	width: 300px;
+}
+
+.text:hover,
+.text:focus {
+	border: 1px solid grey;
+	border-radius: 20px;
+}
+
+.text:active { 
+	border: 1px solid grey;
+}

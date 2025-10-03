@@ -1,0 +1,39 @@
+.section {
+	display: flex;
+}
+
+.list {
+	padding: 0;
+	gap: 20px;
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.input {
+	display: none;
+}
+
+.input:checked + .label {
+	background-color: lightblue;
+}
+
+.label {
+	background-color: wheat;
+	padding: 10px 20px;
+	border-radius: 15px;
+	cursor: pointer;
+
+	transition: all 250ms;
+}
+
+.label:hover {
+	background-color: lightblue;
+}
