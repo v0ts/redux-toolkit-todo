@@ -1,4 +1,4 @@
-import { addTodo } from '../../redux/actions'
+import { addTodo } from '../../redux/taskSlice'
 import { useDispatch } from 'react-redux'
 import style from './CreateTodo.module.css'
 

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import style from './TodoList.module.css'
-import { setCompletedTodo, removeTodo, editTodo } from '../../redux/actions'
+import { setCompletedTodo, removeTodo, editTodo } from '../../redux/taskSlice'
 
 export const TodoList = () => {
 	const state = useSelector((state) => state)
-	const todos = state.todo
+	const todos = state.tasks
 	const filter = state.filter
 	const dispatch = useDispatch()
 
