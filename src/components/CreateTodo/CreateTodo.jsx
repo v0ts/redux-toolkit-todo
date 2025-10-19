@@ -1,6 +1,7 @@
-import { addTodo } from "../../redux/slice/taskSlice";
 import { useDispatch } from "react-redux";
 import style from "./CreateTodo.module.css";
+import { addTaskThunk } from "../../redux/thunk/taskThunk";
+import { v4 as uuid } from "uuid";
 
 export const CreateTodo = () => {
 	const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const CreateTodo = () => {
 			return;
 		}
 
-		dispatch(addTodo(input.value));
+		dispatch(addTaskThunk({ id: uuid(), text: input.value, completed: false }));
 
 		input.value = "";
 

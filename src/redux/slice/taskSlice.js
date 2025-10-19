@@ -1,41 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuid } from "uuid";
+import {
+	getTasksThunk,
+	addTaskThunk,
+	deleteTaskThunk,
+	updateTaskThunk,
+} from "../thunk/taskThunk";
 
 const taskSlice = createSlice({
 	name: "tasks",
 	initialState: [{ id: "someId", text: "Some Text", completed: true }],
-	reducers: {
-		addTodo: {
-			reducer(state, action) {
+	extraReducers: (builder) => {
+		builder
+			.addCase(getTasksThunk.fulfilled, (state, action) => {
+				return action.payload;
+			})
+			.addCase(addTaskThunk.fulfilled, (state, action) => {
+				console.log(action.payload);
 				state.push(action.payload);
-			},
-			prepare(text) {
-				return {
-					payload: {
-						text,
-						id: uuid(),
-						completed: false,
-					},
-				};
-			},
-		},
-		editTodo: {
-			reducer(state, action) {
-				state.find((task) => task.id === action.payload.id).text =
-					action.payload.text;
-			},
-		},
-		removeTodo: {
-			reducer(state, action) {
-				state = state.filter((task) => task.id !== action.payload);
-			},
-		},
-		setCompletedTodo: {
-			reducer(state, action) {
-				const task = state.find((task) => task.id === action.payload);
-				task.completed = !task.completed;
-			},
-		},
+			})
+			.addCase(deleteTaskThunk.fulfilled, (state, action) => {
+				return state.filter((task) => task.id !== action.payload);
+			})
+			.addCase(updateTaskThunk.fulfilled, (state, action) => {
+				const task = state.find((task) => task.id === action.payload.id);
+				if (action.payload.text) {
+					task.text = action.payload.text;
+				} else if (action.payload.completed) {
+					task.completed = action.payload.completed;
+				}
+			});
 	},
 });
 

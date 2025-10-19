@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import style from "./TodoList.module.css";
 import {
-	setCompletedTodo,
-	removeTodo,
-	editTodo,
-} from "../../redux/slice/taskSlice";
+	deleteTaskThunk,
+	updateTaskThunk,
+	getTasksThunk,
+} from "../../redux/thunk/taskThunk";
+import { useEffect } from "react";
 
 export const TodoList = () => {
-	const state = useSelector((state) => state);
-	const todos = state.tasks;
-	const filter = state.filter;
+	const filter = useSelector((state) => state.filter);
+	const todos = useSelector((state) => state.tasks);
 	const dispatch = useDispatch();
 
 	let filteredTodos =
@@ -23,16 +23,26 @@ export const TodoList = () => {
 		? [...filteredTodos].sort((a, b) => a.completed - b.completed)
 		: [...filteredTodos].sort((a, b) => b.completed - a.completed);
 
+	useEffect(() => {
+		dispatch(getTasksThunk());
+	}, [dispatch]);
+
 	const handleDelClick = (id) => {
-		dispatch(removeTodo(id));
+		dispatch(deleteTaskThunk(id));
 	};
 
-	const handleTick = (id) => {
-		dispatch(setCompletedTodo(id));
-	};
+	const handleUpdateClick = ({ id, text, completed }) => {	
+		const deployObject = {
+			id,
+		};
 
-	const handleInputChange = (id, text) => {
-		dispatch(editTodo({ id, text }));
+		if (text !== undefined) {
+			deployObject.text = text;
+		} else if (completed !== undefined) {
+			deployObject.completed = completed;
+		}
+
+		dispatch(updateTaskThunk(deployObject));
 	};
 
 	return (
@@ -48,7 +58,12 @@ export const TodoList = () => {
 									id="completed"
 									className={style.checkbox}
 									defaultChecked
-									onChange={() => handleTick(item.id)}
+									onChange={() =>
+										handleUpdateClick({
+											id: item.id,
+											completed: !item.completed,
+										})
+									}
 								/>
 							) : (
 								<input
@@ -56,7 +71,12 @@ export const TodoList = () => {
 									name="completed"
 									id="completed"
 									className={style.checkbox}
-									onChange={() => handleTick(item.id)}
+									onChange={() =>
+										handleUpdateClick({
+											id: item.id,
+											completed: !item.completed,
+										})
+									}
 								/>
 							)}
 
@@ -66,7 +86,9 @@ export const TodoList = () => {
 								name="cardText"
 								id="cardText"
 								defaultValue={item.text}
-								onBlur={(e) => handleInputChange(item.id, e.target.value)}
+								onBlur={(e) =>
+									handleUpdateClick({ id: item.id, text: e.target.value })
+								}
 							/>
 							<ul className={style.buttonList}>
 								<li className={style.buttonItem}>
