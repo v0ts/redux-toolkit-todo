@@ -9,15 +9,13 @@ export const getTasksThunk = createAsyncThunk("tasks/get", async () => {
 });
 
 export const addTaskThunk = createAsyncThunk("tasks/add", async (task) => {
-	const responce = await fetch(`${baseUrl}/tasks`, {
+	await fetch(`${baseUrl}/tasks`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(task),
 	});
-
-	console.log(responce);
 
 	return task;
 });

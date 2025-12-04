@@ -8,30 +8,72 @@ import {
 
 const taskSlice = createSlice({
 	name: "tasks",
-	initialState: [{ id: "someId", text: "Some Text", completed: true }],
+	initialState: {
+		items: [],
+		isLoading: false,
+		isError: false,
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getTasksThunk.fulfilled, (state, action) => {
-				return action.payload;
+				state.items = action.payload || [];
+				state.isError = false;
+				state.isLoading = false;
+			})
+			.addCase(getTasksThunk.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+			.addCase(getTasksThunk.rejected, (state, action) => {
+				state.isError = true;
+				state.isLoading = false;
 			})
 			.addCase(addTaskThunk.fulfilled, (state, action) => {
-				console.log(action.payload);
-				state.push(action.payload);
+				state.items.push(action.payload);
+				state.isError = false;
+				state.isLoading = false;
+			})
+			.addCase(addTaskThunk.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+			.addCase(addTaskThunk.rejected, (state, action) => {
+				state.isError = true;
+				state.isLoading = false;
 			})
 			.addCase(deleteTaskThunk.fulfilled, (state, action) => {
-				return state.filter((task) => task.id !== action.payload);
+				state.items = state.items.filter((task) => task.id !== action.payload);
+				state.isError = false;
+				state.isLoading = false;
+			})
+			.addCase(deleteTaskThunk.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+			.addCase(deleteTaskThunk.rejected, (state, action) => {
+				state.isError = true;
+				state.isLoading = false;
 			})
 			.addCase(updateTaskThunk.fulfilled, (state, action) => {
-				const task = state.find((task) => task.id === action.payload.id);
+				const task = state.items.find((task) => task.id === action.payload.id);
 				if (action.payload.text) {
 					task.text = action.payload.text;
 				} else if (action.payload.completed) {
 					task.completed = action.payload.completed;
 				}
+
+				state.isError = false;
+				state.isLoading = false;
+			})
+			.addCase(updateTaskThunk.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+			.addCase(updateTaskThunk.rejected, (state, action) => {
+				state.isError = true;
+				state.isLoading = false;
 			});
 	},
 });
 
-export const { addTodo, editTodo, removeTodo, setCompletedTodo } =
-	taskSlice.actions;
 export const taskReducer = taskSlice.reducer;

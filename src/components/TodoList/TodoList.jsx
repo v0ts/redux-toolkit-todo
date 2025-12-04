@@ -6,10 +6,18 @@ import {
 	getTasksThunk,
 } from "../../redux/thunk/taskThunk";
 import { useEffect } from "react";
+import { selectAllFilters } from "../../redux/selectors/filterSelector";
+import {
+	selectError,
+	selectLoading,
+	selectTasks,
+} from "../../redux/selectors/taskSelector";
 
 export const TodoList = () => {
-	const filter = useSelector((state) => state.filter);
-	const todos = useSelector((state) => state.tasks);
+	const filter = useSelector(selectAllFilters);
+	const todos = useSelector(selectTasks) || [];
+	const error = useSelector(selectError);
+	const loading = useSelector(selectLoading);
 	const dispatch = useDispatch();
 
 	let filteredTodos =
@@ -31,7 +39,7 @@ export const TodoList = () => {
 		dispatch(deleteTaskThunk(id));
 	};
 
-	const handleUpdateClick = ({ id, text, completed }) => {	
+	const handleUpdateClick = ({ id, text, completed }) => {
 		const deployObject = {
 			id,
 		};
@@ -48,6 +56,8 @@ export const TodoList = () => {
 	return (
 		<section>
 			<ul className={style.list}>
+				{error && <p>An error occurred</p>}
+				{loading && <p>Loading...</p>}
 				{filteredTodos.length > 0 ? (
 					filteredTodos.map((item) => (
 						<li className={style.item} key={item.id}>

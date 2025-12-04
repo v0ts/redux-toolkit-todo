@@ -1,9 +1,10 @@
 import style from "./SidePanelFilter.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateIsDoneFilter } from "../../redux/slice/filterSlice";
+import { selectFilterDone } from "../../redux/selectors/filterSelector";
 
 export const SidePanelFilter = () => {
-	const isDone = useSelector((state) => state.filter.isDone);
+	const isDone = useSelector(selectFilterDone);
 	const dispatch = useDispatch();
 
 	const handleIsDoneFilter = () => {
